@@ -1,0 +1,20 @@
+{
+    "name":"EAPHP",
+    "description": "A PHP Framewokr for PHP developer",
+    "type": "Framword",
+    "keywords": [
+        "PHP","PHP Framework"
+    ],
+    "require": {
+        "PHP":">=7.0.20",
+        "filp/whoops":"*",
+        "symfony/var-dumper":"*",
+        "topthink/think-orm":"1.2.17"
+    },
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://packagist.phpcomposer.com"
+        }
+    }
+}
