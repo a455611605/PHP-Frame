@@ -1,5 +1,8 @@
 <?php
 
 use core\lib\Route;
-Route::get('/user/:id', 'user/get');
+Route::get('/', 'user/ds');
+Route::post('/user', 'user/get');
+Route::get('/user', 'user/get1');
+
 Route::run();

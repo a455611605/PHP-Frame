@@ -7,11 +7,11 @@ class Route
 
     // 路由规则
     private static $rules = [
-        'get' => [],
+        'get' => ['/$' => 'index/index'],
         'post' => [],
         'put' => [],
         'delete' => [],
-        '*' => [],
+        '*' => ['/$' => 'index/index'],
     ];
     /**
      * 绑定路由
@@ -44,6 +44,9 @@ class Route
     public static function __callStatic($func, $arguments)
     {
         $arguments[] = $func;
+        if ($arguments[0] == '/') {
+            $arguments[0] = $arguments[0] . '$';
+        }
         self::rule(...$arguments);
     }
     /**
@@ -52,9 +55,11 @@ class Route
      */
     public static function parseUrl()
     {
-        $analysis = ['status' => 404];
         $method = strtolower($_SERVER['REQUEST_METHOD']);
         $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        $analysis['status'] = 404;
+        $analysis['type'] = $method;
+        $analysis['param'] = [];
         if (isset(self::$rules[$method][$uri])) { //匹配成功，并且没参数
             $analysis['status'] = 200;
             $analysis['rule'] = $uri;
@@ -73,12 +78,10 @@ class Route
                 $analysis['status'] = 200;
                 $analysis['rule'] = $rule;
                 $analysis['route'] = $route;
-                $analysis['type'] = $method;
                 $analysis['param'] = self::Params($analysis, $uri);
                 break;
             }
         }
-
         return $analysis;
     }
     /**
@@ -115,7 +118,6 @@ class Route
         if ($analysis['status'] === 404) {
             throw new \Exception('未定义路由' . parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
         }
-
         $parts = explode('/', trim($analysis['route'], '/'));
         $ctrl = $parts[0];
         $action = $parts[1];
@@ -128,11 +130,10 @@ class Route
                 if ($analysis['type'] == 'get' || $analysis['type'] == '*') {
                     $_GET = array_merge($analysis['param'], $_GET);
                 }
-                $argList = null;
+                $argList = [];
                 foreach ($analysis['param'] as $value) {
                     $argList[] = $value;
                 }
-
                 $ctrl_obj->$action(...$argList);
             } else {
                 throw new \Exception('找不到' . $action . '函数');

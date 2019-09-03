@@ -2,12 +2,13 @@
 
 namespace app\ctrl;
 
-use app\model\user as userModel;
+use app\validate\user as userValidate;
 
 class user
 {
     public function get()
     {
-        dd(userModel::all());
+        (new userValidate)->goCheck();
+        //...todo
     }
 }
