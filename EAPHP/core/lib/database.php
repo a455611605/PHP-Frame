@@ -8,7 +8,6 @@ class database
 {
     public static function init()
     {
-        $conf = conf::all('database');
-        Db::setConfig($conf);
+        Db::setConfig(conf::all('database'));
     }
 }

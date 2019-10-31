@@ -8,8 +8,8 @@
     "require": {
         "PHP":">=7.0.20",
         "filp/whoops":"*",
-        "symfony/var-dumper":"*",
-        "topthink/think-orm":"1.2.17"
+        "topthink/think-orm":"1.2.17",
+        "symfony/var-dumper": "^4.3"
     },
     "repositories": {
         "packagist": {

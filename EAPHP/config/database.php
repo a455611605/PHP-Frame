@@ -10,6 +10,4 @@ return array(
     'username' => 'root',
     // 密码
     'password' => 'root',
-    // 端口
-    'hostport' => '',
 );
